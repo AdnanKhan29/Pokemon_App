@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import "./PokemonCard.css";
 import pokeball from "../images/pokeball.png";
-function PokemonCard([
+import Modal from "./Modal";
+function PokemonCard({
   id,
   name,
   image,
@@ -10,7 +11,7 @@ function PokemonCard([
   height,
   stats,
   statsName,
-]) {
+}) {
   const [isShown, setIsShown] = useState(false);
   const [modalIsOpen, setModalIsOpen] = useState(false);
   function modalHandler() {
@@ -23,12 +24,12 @@ function PokemonCard([
     <div className="container">
       {isShown && (
         <div className="show">
-          <div className="stat-container-title">
+          <button onClick={modalHandler} className="stat-container-title">
             <img src={image} alt={name} className="image-title" />
             <p style={{ width: "180px", color: "black" }}>No. {id}</p>
             <p>{name}</p>
             <img src={pokeball} alt="pokeball" className="pokeball-title" />
-          </div>
+          </button>
           <img src={image} alt={name}></img>
           <div style={{ display: "flex", width: "100%" }}>
             <div
@@ -67,7 +68,7 @@ function PokemonCard([
         <img
           src={image}
           alt={name}
-          style={{ maxHeight: "50px", marginRight: "10px", width: "50px" }}
+          style={{ maxHeight: "70px", marginRight: "10px", width: "50px" }}
         />
         <p style={{ width: "270px" }}>No. {id}</p>
         <p>{name}</p>

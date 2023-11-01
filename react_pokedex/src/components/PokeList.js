@@ -11,20 +11,19 @@ function PokeList() {
     );
     const data = await res.json();
 
-    async function createPokemonObject(results) {
-      const pokemonDataArray = await Promise.all(
-        results.map(async (pokemon) => {
-          const res = await fetch(
-            `https://pokeapi.co/api/v2/pokemon/${pokemon.name}`
-          );
-          return res.json();
-        })
-      );
-      const sortedPokemonData = pokemonDataArray.sort((a, b) => a.id - b.id);
-      setAllPokemons(sortedPokemonData);
+    function createPokemonObject(results) {
+      results.forEach(async (pokemon) => {
+        const res = await fetch(
+          `https://pokeapi.co/api/v2/pokemon/${pokemon.name}`
+        );
+        const data = await res.json();
+        setAllPokemons((currentList) => [...currentList, data]);
+        await allPokemons.sort((a, b) => a.id - b.id);
+      });
     }
 
     createPokemonObject(data.results);
+    console.log(allPokemons);
   };
 
   useEffect(() => {
@@ -37,7 +36,7 @@ function PokeList() {
         <div className="all-container">
           {allPokemons.map((pokemonStats) => (
             <PokemonCard
-              key={pokemonStats.id}
+              key={pokemonStats.name}
               id={pokemonStats.id.toString().padStart(3, "0")}
               image={
                 pokemonStats.sprites.other["official-artwork"].front_default
@@ -48,6 +47,9 @@ function PokeList() {
               height={pokemonStats.height}
               stats={pokemonStats.stats
                 .map((stat) => stat.base_stat)
+                .slice(0, 3)}
+              statsName={pokemonStats.stats
+                .map((stat) => stat.stat.name)
                 .slice(0, 3)}
             />
           ))}
