@@ -42,7 +42,7 @@ function PokemonCard({
             </div>
             <div style={{ background: "#ffffff" }} className="stats-right">
               <p>{type}</p>
-              <p>{height} 0cm</p>
+              <p>{height} m</p>
               <p>{weight} lbs</p>
             </div>
           </div>
